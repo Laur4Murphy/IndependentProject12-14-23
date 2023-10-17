@@ -9,7 +9,8 @@ public class Game extends PApplet {
     int timer = 50;
 
     int counter = 10;
-
+    double xSpeed;
+    double ySpeed;
 
     public void settings() {
         size(800, 800);   // set the window size
@@ -59,14 +60,18 @@ public class Game extends PApplet {
                 int y1 = tower.y;
                 int x2 = tank.x;
                 int y2 = tank.y;
+
                 double dist = Math.sqrt(Math.pow((x2-x1), 2)+Math.pow((y2-y1),2));
                 if(dist<minDist){
                     minDist = dist;
                     //save the xSpeed and ySpeed,  Math.pow((x2-x1), 2)
+                    xSpeed = Math.pow((x2-x1), 2);
+                    ySpeed = Math.pow((y2-y1), 2);
                 }
             }
             //give it the xSpeed and ySpeed
-            tower.shoot();
+            tower.shoot(xSpeed, ySpeed).update();
+
         }
 
 

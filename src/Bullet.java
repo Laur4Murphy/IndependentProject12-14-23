@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 public class Bullet {
-    int xSpeed, ySpeed, x, y, size;
-    public Bullet(int x, int y, int xSpeed, int ySpeed){
+    int x, y, size;
+    double xSpeed, ySpeed;
+    public Bullet(int x, int y, double xSpeed, double ySpeed){
         this.x = x;
         this.y = y;
         this.xSpeed = xSpeed;
