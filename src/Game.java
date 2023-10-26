@@ -81,6 +81,8 @@ public class Game extends PApplet {
             b.draw(this);
             b.update();
 
+            //try to make bullets shoot
+
         }
 
     }
