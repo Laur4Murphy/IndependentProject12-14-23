@@ -6,6 +6,7 @@ public class Game extends PApplet {
     // TODO: declare game variables
     ArrayList<Tank> tankList;
     ArrayList<Tower> towerList;
+    ArrayList<Bullet> bulletList;
     int timer = 50;
 
     int counter = 10;
@@ -19,8 +20,9 @@ public class Game extends PApplet {
 
     public void setup() {
         // TODO: initialize game variables
-        tankList = new ArrayList<Tank>();
-        towerList = new ArrayList<Tower>();
+        tankList = new ArrayList<>();
+        towerList = new ArrayList<>();
+        bulletList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             //made 15 balloons to start
             Tank ta = new Tank(-80, 360);
@@ -52,6 +54,10 @@ public class Game extends PApplet {
             tank.update();
             tank.draw(this);
         }
+        for(Bullet bullet : bulletList){
+            bullet.update();
+            bullet.draw(this);
+        }
         for (Tower tower : towerList) {
             tower.draw(this);
             double minDist = 100000;
@@ -70,10 +76,12 @@ public class Game extends PApplet {
                 }
             }
             //give it the xSpeed and ySpeed
-            tower.shoot(xSpeed, ySpeed).update();
+            Bullet b = tower.shoot(xSpeed, ySpeed);
+            bulletList.add(b);
+            b.draw(this);
+            b.update();
 
         }
-
 
     }
     public void mouseReleased() {

@@ -10,7 +10,7 @@ public class Tower {
     public Bullet shoot(double xSpeed, double ySpeed){
         //if called, should produce a bullet at a certain position / going toward the first tank that's in the tower's range
         //needs to be passed the xSpeed and ySpeed that it sends a bullet out of. The bullet doesn't know these things
-        Bullet b = new Bullet(this.x, this.y, xSpeed, ySpeed);
+        Bullet b = new Bullet(this.x+40, this.y+40, xSpeed, ySpeed);
         return b;
     }
     public void draw(Game game){
