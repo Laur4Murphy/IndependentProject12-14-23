@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Tank {
     int x, y, xSpeed, size;
     public Tank(int x, int y){
@@ -12,11 +14,26 @@ public class Tank {
     public void keepInBounds(){
         //if off the screen, wrap back to x = 0;
     }
+    public boolean containsBullet(ArrayList<Bullet> bulletList){
+        for (Bullet bullet: bulletList) {
+            if (bullet.x>this.x&&bullet.x<right()) {
+                if(bullet.y>this.y&& bullet.y<bottom()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     public void draw(Game game){
         game.fill(255, 0, 0);
         game.rect(x, y, size, size);
 
     }
-
+    public int right(){
+        return this.x+this.size;
+    }
+    public int bottom(){
+       return this.y+this.size;
+    }
 
 }

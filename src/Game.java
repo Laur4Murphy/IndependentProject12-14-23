@@ -8,10 +8,13 @@ public class Game extends PApplet {
     ArrayList<Tower> towerList;
     ArrayList<Bullet> bulletList;
     int timer = 50;
+    int tankNum = 0;
+    boolean stillPlacing = true;
 
     int counter = 10;
     double xSpeed;
     double ySpeed;
+    Bullet b;
 
     public void settings() {
         size(800, 800);   // set the window size
@@ -50,40 +53,38 @@ public class Game extends PApplet {
             timer = 50;										// reset timer
         }
 
-        for (Tank tank : tankList) {
-            tank.update();
-            tank.draw(this);
+
+
+
+        for (int i = 0; i < tankList.size(); i++) {
+            if(tankList.get(i).containsBullet(bulletList)){
+                tankList.remove(i);
+                i--;
+            }else {
+                tankList.get(i).update();
+                tankList.get(i).draw(this);
+            }
+        }
+
+        for (Tower tower : towerList) {
+            tower.draw(this);
+            if(!stillPlacing) {
+                b = tower.shoot();
+                Tank t = Tower.getClosest(b, tankList);
+                b.aimAt(t);
+                bulletList.add(b);
+            }
         }
         for(Bullet bullet : bulletList){
             bullet.update();
             bullet.draw(this);
-        }
-        for (Tower tower : towerList) {
-            tower.draw(this);
-            double minDist = 100000;
-            for (Tank tank : tankList) {
-                int x1 = tower.x;
-                int y1 = tower.y;
-                int x2 = tank.x;
-                int y2 = tank.y;
-
-                double dist = Math.sqrt(Math.pow((x2-x1), 2)+Math.pow((y2-y1),2));
-                if(dist<minDist){
-                    minDist = dist;
-                    //save the xSpeed and ySpeed,  Math.pow((x2-x1), 2)
-                    xSpeed = Math.pow((x2-x1), 2);
-                    ySpeed = Math.pow((y2-y1), 2);
-                }
-            }
-            //give it the xSpeed and ySpeed
-            Bullet b = tower.shoot(xSpeed, ySpeed);
-            bulletList.add(b);
-            b.draw(this);
-            b.update();
-
-            //try to make bullets shoot
 
         }
+
+
+        //if(tankNum>50){
+            //end the game
+        //}
 
     }
     public void mouseReleased() {
@@ -93,9 +94,11 @@ public class Game extends PApplet {
                     Tower t = new Tower(mouseX - 40, mouseY - 40);
                     towerList.add(t);
                     counter--;
+                    stillPlacing = true;
                 }
             }
         }
+        stillPlacing = false;
     }
 
 
