@@ -23,6 +23,7 @@ public class Bullet {
     //public boolean isCollide(ArrayList<Tank> tankslist){
         //loop through the given list and return true if collided with any one of them
     //}
+
     public void aimAt(Tank tank){
         int x2 = tank.x;
         int y2 = tank.y;

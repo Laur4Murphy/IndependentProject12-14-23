@@ -9,6 +9,7 @@ public class Tank {
         size = 80;
         lives = 2;
     }
+
     public void update(){
         x += xSpeed;
     }
