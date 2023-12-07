@@ -8,8 +8,8 @@ public class Game extends PApplet {
     ArrayList<Tower> towerList;
     ArrayList<Bullet> bulletList;
     int timer = 50;
-    int lostCount = 0;
-    int tankNum = 0;
+    int winCount = 0;
+    int tankNum = 5;
     boolean stillPlacing = true;
     boolean gameOver = false;
 
@@ -29,10 +29,9 @@ public class Game extends PApplet {
         towerList = new ArrayList<>();
         bulletList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            //made 15 tanks to start
+            //made 5 tanks to start
             Tank ta = new Tank(-80, 360);
             tankList.add(ta);
-            tankNum +=5;
         }
 
     }
@@ -42,67 +41,66 @@ public class Game extends PApplet {
      * tick each object (have it update itself), and draw each object
      */
     public void draw() {
-        //in here, the game finds the nearest tank to the tower and calculates the xSpeed and ySpeed, then pass that into shoot()
-        background(255);    // paint screen white
-        fill(0,255,0);          // load green paint color
-        rect(0, 300, 800, 200);
-        fill(255, 0, 0);
-        timer--;			 // count down
-        text("Click to place each tower", 10, 10);
+        if(!gameOver) {
+            //in here, the game finds the nearest tank to the tower and calculates the xSpeed and ySpeed, then pass that into shoot()
+            background(255);    // paint screen white
+            fill(0, 255, 0);          // load green paint color
+            rect(0, 300, 800, 200);
+            fill(255, 0, 0);
+            timer--;             // count down
+            text("Click to place each tower", 10, 10);
 
-        if (timer <= 0) {
-            Tank b = new Tank(-80, 360);					// spawn it
-            tankList.add(b);								// add it to list
-            timer = 50;// reset timer
-            tankNum ++;
-        }
+            if (timer <= 0) {
+                    Tank b = new Tank(-80, 360);                    // spawn it
+                    tankList.add(b);                                // add it to list
+                    timer = 50;// reset timer
+                    tankNum++;
+            }
 
 
-        for (int i = 0; i < tankList.size(); i++) {
-            if(tankList.get(i).containsBullet(bulletList)){
-                tankList.get(i).minusLife();
-                if(tankList.get(i).getLives()<=0) {
-                    tankList.remove(i);
-                    i--;
+            for (int i = 0; i < tankList.size(); i++) {
+                Tank tank = tankList.get(i);
+                if (tank.containsBullet(bulletList)) {
+                    tank.minusLife();
+                    if (tank.getLives() <= 0) {
+                        tankList.remove(i);
+                        i--;
+                        winCount++;
+                    }
+
+                } else {
+                    tank.update();
+                    tank.draw(this);
                 }
-            }else {
-                //if(gameOver) {
-                    tankList.get(i).update();
-                    tankList.get(i).draw(this);
-                //}
 
             }
-            if((tankList.get(i).x) >= 800){
-                lostCount++;
-            }
-        }
 
-        for (Tower tower : towerList) {
-            tower.draw(this);
-            if(!stillPlacing) {
-                tower.timer --;
-                if(tower.timer<=0) {
-                    b = tower.shoot();
-                    Tank t = Tower.getClosest(b, tankList);
-                    b.aimAt(t);
-                    bulletList.add(b);
-                    tower.timer = (int) (Math.random()*30+60);
+            for (Tower tower : towerList) {
+                tower.draw(this);
+                if (!stillPlacing) {
+                    tower.timer--;
+                    if (tower.timer <= 0) {
+                        b = tower.shoot();
+                        Tank t = Tower.getClosest(b, tankList);
+                        b.aimAt(t);
+                        bulletList.add(b);
+                        tower.timer = (int) (Math.random() * 30 + 60);
+                    }
                 }
             }
+            for (Bullet bullet : bulletList) {
+                bullet.update();
+                bullet.draw(this);
+
+            }
         }
-        for(Bullet bullet : bulletList){
-            bullet.update();
-            bullet.draw(this);
-
-        }
-
-        if(tankNum>=50){
-
+        if(tankNum>=30){
+            gameOver = true;
             setup();
             background(0);
             textSize(15);
             text("Game Over!", 100, 100);
-            text("Your Score: " + (double) lostCount / tankNum *100 + "%", 100, 150);
+            text("You got " + Math.round(((double) (winCount) / tankNum) *100) + "% of the tanks!!", 100, 150);
         }
 
     }
