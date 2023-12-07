@@ -8,8 +8,10 @@ public class Game extends PApplet {
     ArrayList<Tower> towerList;
     ArrayList<Bullet> bulletList;
     int timer = 50;
+    int lostCount = 0;
     int tankNum = 0;
     boolean stillPlacing = true;
+    boolean gameOver = false;
 
     int counter = 10;
     double xSpeed;
@@ -27,9 +29,10 @@ public class Game extends PApplet {
         towerList = new ArrayList<>();
         bulletList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            //made 15 balloons to start
+            //made 15 tanks to start
             Tank ta = new Tank(-80, 360);
             tankList.add(ta);
+            tankNum +=5;
         }
 
     }
@@ -50,29 +53,41 @@ public class Game extends PApplet {
         if (timer <= 0) {
             Tank b = new Tank(-80, 360);					// spawn it
             tankList.add(b);								// add it to list
-            timer = 50;										// reset timer
+            timer = 50;// reset timer
+            tankNum ++;
         }
-
-
 
 
         for (int i = 0; i < tankList.size(); i++) {
             if(tankList.get(i).containsBullet(bulletList)){
-                tankList.remove(i);
-                i--;
+                tankList.get(i).minusLife();
+                if(tankList.get(i).getLives()<=0) {
+                    tankList.remove(i);
+                    i--;
+                }
             }else {
-                tankList.get(i).update();
-                tankList.get(i).draw(this);
+                //if(gameOver) {
+                    tankList.get(i).update();
+                    tankList.get(i).draw(this);
+                //}
+
+            }
+            if((tankList.get(i).x) >= 800){
+                lostCount++;
             }
         }
 
         for (Tower tower : towerList) {
             tower.draw(this);
             if(!stillPlacing) {
-                b = tower.shoot();
-                Tank t = Tower.getClosest(b, tankList);
-                b.aimAt(t);
-                bulletList.add(b);
+                tower.timer --;
+                if(tower.timer<=0) {
+                    b = tower.shoot();
+                    Tank t = Tower.getClosest(b, tankList);
+                    b.aimAt(t);
+                    bulletList.add(b);
+                    tower.timer = (int) (Math.random()*30+60);
+                }
             }
         }
         for(Bullet bullet : bulletList){
@@ -81,24 +96,31 @@ public class Game extends PApplet {
 
         }
 
+        if(tankNum>=50){
 
-        //if(tankNum>50){
-            //end the game
-        //}
+            setup();
+            background(0);
+            textSize(15);
+            text("Game Over!", 100, 100);
+            text("Your Score: " + (double) lostCount / tankNum *100 + "%", 100, 150);
+        }
 
     }
     public void mouseReleased() {
         if(counter>0) {
             if(mouseX>=40&&mouseX<=760) {
                 if (mouseY >= 40 && mouseY <= 760) {
-                    Tower t = new Tower(mouseX - 40, mouseY - 40);
-                    towerList.add(t);
-                    counter--;
-                    stillPlacing = true;
+                    if(mouseY>=540||mouseY<=260) {
+                        Tower t = new Tower(mouseX - 40, mouseY - 40);
+                        towerList.add(t);
+                        counter--;
+                        stillPlacing = true;
+                    }
                 }
             }
+        }else{
+            stillPlacing = false;
         }
-        stillPlacing = false;
     }
 
 

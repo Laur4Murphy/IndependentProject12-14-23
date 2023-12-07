@@ -28,7 +28,7 @@ public class Bullet {
         int y2 = tank.y;
         int x1 = this.x;
         int y1 = this.y;
-        this.xSpeed = (double)(x2-x1)/10;
-        this.ySpeed = (double)(y2-y1)/10;
+        this.xSpeed = (double)(x2-x1)/8;
+        this.ySpeed = (double)(y2-y1)/8;
     }
 }

@@ -3,11 +3,12 @@ import processing.core.PApplet;
 import java.util.ArrayList;
 
 public class Tower {
-    int x, y, size;
+    int x, y, size, timer;
     public Tower(int x, int y){
         this.x = x;
         this.y = y;
         size = 80;
+        timer = (int) (60+Math.random()*30);
     }
     public Bullet shoot(){
         //if called, should produce a bullet at a certain position / going toward the first tank that's in the tower's range

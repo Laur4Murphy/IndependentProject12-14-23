@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 
 public class Tank {
-    int x, y, xSpeed, size;
+    int x, y, xSpeed, size, lives;
     public Tank(int x, int y){
         this.x = x;
         this.y = y;
-        xSpeed = 4;
+        xSpeed = 3;
         size = 80;
+        lives = 2;
     }
     public void update(){
         x += xSpeed;
@@ -28,6 +29,12 @@ public class Tank {
         game.fill(255, 0, 0);
         game.rect(x, y, size, size);
 
+    }
+    public void minusLife(){
+        lives--;
+    }
+    public int getLives(){
+        return this.lives;
     }
     public int right(){
         return this.x+this.size;
