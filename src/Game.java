@@ -76,13 +76,14 @@ public class Game extends PApplet {
             for (Tower tower : towerList) {
                 tower.draw(this);
                 if (!stillPlacing) {
-                    tower.timer--;
-                    if (tower.timer <= 0) {
+                    double timer = tower.getTimer();
+                    timer--;
+                    if (timer <= 0) {
                         Bullet b = tower.shoot();
                         Tank t = Tower.getClosest(b, tankList);
                         b.aimAt(t);
                         bulletList.add(b);
-                        tower.timer = (int) (Math.random() * 30 + 60);
+                        tower.setTimer((int) (Math.random() * 30 + 60));
                     }
                 }
             }

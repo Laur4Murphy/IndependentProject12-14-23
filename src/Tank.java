@@ -1,25 +1,24 @@
 import java.util.ArrayList;
 
 public class Tank {
-    private int x, y, xSpeed, size, lives;
+    private int x, y, xSpeed, lives;
+    private final int size = 80;
+
     public Tank(int x, int y){
         this.x = x;
         this.y = y;
         xSpeed = 3;
-        size = 80;
         lives = 2;
     }
 
     public void update(){
         x += xSpeed;
     }
-    public void keepInBounds(){
-        //if off the screen, wrap back to x = 0;
-    }
+
     public boolean containsBullet(ArrayList<Bullet> bulletList){
         for (Bullet bullet: bulletList) {
-            if (bullet.x>this.x&&bullet.x<right()) {
-                if(bullet.y>this.y&& bullet.y<bottom()) {
+            if (bullet.getX()>this.x&&bullet.getX()<right()) {
+                if(bullet.getY()>this.y&& bullet.getY()<bottom()) {
                     return true;
                 }
             }
