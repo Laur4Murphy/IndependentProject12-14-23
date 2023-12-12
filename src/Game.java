@@ -1,12 +1,15 @@
 import processing.core.PApplet;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 
 public class Game extends PApplet {
     // TODO: declare game variables
-    ArrayList<Tank> tankList;
-    ArrayList<Tower> towerList;
-    ArrayList<Bullet> bulletList;
+
+    private PImage backgroundImg;
+    private ArrayList<Tank> tankList;
+    private ArrayList<Tower> towerList;
+    private ArrayList<Bullet> bulletList;
     private int timer = 50;
     private int winCount = 0;
     private int tankNum = 5;
@@ -31,7 +34,7 @@ public class Game extends PApplet {
             Tank ta = new Tank(-80, 360);
             tankList.add(ta);
         }
-
+        backgroundImg = loadImage("forestclipartResized.png");
     }
 
     /***
@@ -41,7 +44,8 @@ public class Game extends PApplet {
     public void draw() {
         if(!gameOver) {
             //in here, the game finds the nearest tank to the tower and calculates the xSpeed and ySpeed, then pass that into shoot()
-            background(255);    // paint screen white
+            background(255);// paint screen white
+            image(backgroundImg, 0, 0);
             fill(0, 255, 0);          // load green paint color
             rect(0, 300, 800, 200);
             fill(255, 0, 0);
