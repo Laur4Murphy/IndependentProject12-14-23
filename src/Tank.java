@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Tank {
-    int x, y, xSpeed, size, lives;
+    private int x, y, xSpeed, size, lives;
     public Tank(int x, int y){
         this.x = x;
         this.y = y;
@@ -43,5 +43,7 @@ public class Tank {
     public int bottom(){
        return this.y+this.size;
     }
+    public int getX(){ return this.x;}
+    public int getY(){return this.y;}
 
 }

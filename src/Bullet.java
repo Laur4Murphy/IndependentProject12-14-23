@@ -25,8 +25,8 @@ public class Bullet {
     //}
 
     public void aimAt(Tank tank){
-        int x2 = tank.x;
-        int y2 = tank.y;
+        int x2 = tank.getX();
+        int y2 = tank.getX();
         int x1 = this.x;
         int y1 = this.y;
         this.xSpeed = (double)(x2-x1)/8;

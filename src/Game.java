@@ -7,16 +7,14 @@ public class Game extends PApplet {
     ArrayList<Tank> tankList;
     ArrayList<Tower> towerList;
     ArrayList<Bullet> bulletList;
-    int timer = 50;
-    int winCount = 0;
-    int tankNum = 5;
-    boolean stillPlacing = true;
-    boolean gameOver = false;
+    private int timer = 50;
+    private int winCount = 0;
+    private int tankNum = 5;
+    private boolean stillPlacing = true;
+    private boolean gameOver = false;
 
-    int counter = 10;
-    double xSpeed;
-    double ySpeed;
-    Bullet b;
+    private int counter = 10;
+
 
     public void settings() {
         size(800, 800);   // set the window size
@@ -80,7 +78,7 @@ public class Game extends PApplet {
                 if (!stillPlacing) {
                     tower.timer--;
                     if (tower.timer <= 0) {
-                        b = tower.shoot();
+                        Bullet b = tower.shoot();
                         Tank t = Tower.getClosest(b, tankList);
                         b.aimAt(t);
                         bulletList.add(b);
