@@ -7,9 +7,11 @@ public class Game extends PApplet {
     // TODO: declare game variables
 
     private PImage backgroundImg;
+    private PImage roadImg;
     private ArrayList<Tank> tankList;
     private ArrayList<Tower> towerList;
     private ArrayList<Bullet> bulletList;
+    //this timer is for the interval between tanks that spawn
     private int timer = 50;
     private int winCount = 0;
     private int tankNum = 5;
@@ -17,6 +19,7 @@ public class Game extends PApplet {
     private boolean gameOver = false;
 
     private int counter = 10;
+    private Bullet b;
 
 
     public void settings() {
@@ -35,6 +38,7 @@ public class Game extends PApplet {
             tankList.add(ta);
         }
         backgroundImg = loadImage("forestclipartResized.png");
+        roadImg = loadImage("roadImgResized.png");
     }
 
     /***
@@ -44,17 +48,18 @@ public class Game extends PApplet {
     public void draw() {
         if(!gameOver) {
             //in here, the game finds the nearest tank to the tower and calculates the xSpeed and ySpeed, then pass that into shoot()
-            background(255);// paint screen white
+            //background(255);// paint screen white
             image(backgroundImg, 0, 0);
-            fill(0, 255, 0);          // load green paint color
-            rect(0, 300, 800, 200);
-            fill(255, 0, 0);
+            //fill(0, 255, 0);          // load green paint color
+            //rect(0, 300, 800, 200);
+            image(roadImg, 0, 300);
+            //fill(255, 0, 0);
             timer--;             // count down
             text("Click to place each tower", 10, 10);
 
             if (timer <= 0) {
                     Tank b = new Tank(-80, 360);                    // spawn it
-                    tankList.add(b);                                // add it to list
+                    tankList.add(b);// add it to list
                     timer = 50;// reset timer
                     tankNum++;
             }
@@ -80,10 +85,10 @@ public class Game extends PApplet {
             for (Tower tower : towerList) {
                 tower.draw(this);
                 if (!stillPlacing) {
-                    double timer = tower.getTimer();
-                    timer--;
-                    if (timer <= 0) {
-                        Bullet b = tower.shoot();
+                    double timerNow = tower.getTimer();
+                    tower.setTimer(timerNow-1);
+                    if (tower.getTimer() <= 0) {
+                        b = tower.shoot();
                         Tank t = Tower.getClosest(b, tankList);
                         b.aimAt(t);
                         bulletList.add(b);
@@ -97,11 +102,11 @@ public class Game extends PApplet {
 
             }
         }
-        if(tankNum>=30){
+        if(tankNum>=50){
             gameOver = true;
             setup();
             background(0);
-            textSize(15);
+            textSize(30);
             text("Game Over!", 100, 100);
             text("You got " + Math.round(((double) (winCount) / tankNum) *100) + "% of the tanks!!", 100, 150);
         }

@@ -17,7 +17,7 @@ public class Tower {
         return new Bullet((this.x)+40, (this.y)+40, 0, 0);
     }
     public static Tank getClosest(Bullet b, ArrayList<Tank> tankList){
-        Tank returnTank = new Tank (-100, -100);
+        Tank returnTank = new Tank (-40, 240);
         double minDist = Math.sqrt(Math.pow(((b.getX())-(tankList.get(0).getX())), 2)+Math.pow((b.getY()-(tankList.get(0).getY())),2));
         for (Tank tank : tankList) {
             double x1 = b.getX();
